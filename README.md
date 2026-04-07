@@ -42,8 +42,3 @@ flutter run
 | `mobile_flutter/` | клиент на Flutter |
 | `req.txt` | зависимости Python |
 
-## Перед публикацией в продакшене
-
-- Замените `SECRET_KEY` в `ad_project/settings.py`.
-- Установите `DEBUG = False` и настройте `ALLOWED_HOSTS`.
-- Не коммитьте `db.sqlite3` и виртуальное окружение `venv/` в репозиторий — добавьте их в `.gitignore`.
