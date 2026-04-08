@@ -32,6 +32,7 @@ class Ad(models.Model):
     title = models.CharField('Заголовок', max_length=200)
     description = models.TextField('Описание')
     price = models.PositiveIntegerField('Цена (тенге)', help_text='0 — бесплатно')
+    contact_phone = models.CharField('Телефон для связи', max_length=20, blank=True, default='')
     image_url = models.CharField('URL фото', max_length=500, blank=True, default='')
     created_at = models.DateTimeField('Дата публикации', auto_now_add=True)
     is_moderated = models.BooleanField('Прошло модерацию', default=False)

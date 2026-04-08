@@ -3,6 +3,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
+/// `null` — ПК и Android-эмулятор; для телефона в Wi‑Fi: `http://192.168.x.x:8000`.
+const String? kApiHostOverride = null;
+
 void main() {
   runApp(const AdsApp());
 }
@@ -63,8 +66,13 @@ class AdItem {
 }
 
 class AdsApi {
-  /// Android emulator → 10.0.2.2; Windows, iOS simulator, Web → localhost.
+  /// Эмулятор Android → 10.0.2.2; симулятор iOS / Windows → localhost.
+  /// Реальный телефон → задай [kApiHostOverride] и `runserver 0.0.0.0:8000`.
   static String get baseUrl {
+    final override = kApiHostOverride?.trim();
+    if (override != null && override.isNotEmpty) {
+      return override.replaceAll(RegExp(r'/+$'), '');
+    }
     if (kIsWeb) return 'http://127.0.0.1:8000';
     if (defaultTargetPlatform == TargetPlatform.android) {
       return 'http://10.0.2.2:8000';
@@ -182,7 +190,7 @@ class _AdsFeedPageState extends State<AdsFeedPage> {
                               style: const TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.w800,
-                                color: Color(0xFF6B4EFF),
+                                color: Color(0xFFDC2626),
                               ),
                             ),
                             const SizedBox(height: 6),

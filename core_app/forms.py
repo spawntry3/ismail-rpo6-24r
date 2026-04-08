@@ -17,11 +17,12 @@ class UserRegisterForm(UserCreationForm):
 class AdForm(forms.ModelForm):
     class Meta:
         model = Ad
-        fields = ['category', 'city', 'title', 'description', 'price', 'image_url']
+        fields = ['category', 'city', 'title', 'description', 'price', 'contact_phone', 'image_url']
         widgets = {
             'description': forms.Textarea(attrs={'rows': 4}),
         }
         labels = {
+            'contact_phone': 'Телефон (показывается по кнопке «Показать номер»)',
             'image_url': 'URL фотографии (необязательно)',
         }
 

@@ -83,7 +83,7 @@
                     <div style="font-size:12px;color:var(--muted);">с {{ ad.author.date_joined|date:"Y" }} года</div>
                 </div>
             </div>
-            <button class="price-box-btn primary">📞 Показать номер</button>
+            <button type="button" class="price-box-btn primary js-show-phone" data-phone="{{ ad.contact_phone|escape }}">📞 Показать номер</button>
             <a href="{% url 'toggle_favorite' uuid=ad.uuid %}" class="price-box-btn outline-fav {% if is_favorite %}active{% endif %}" style="display:flex;">
                 {% if is_favorite %}💗 Убрать из избранного{% else %}🤍 В избранное{% endif %}
             </a>
@@ -125,9 +125,31 @@
     </div>
     <div class="m-btns">
         <a href="{% url 'toggle_favorite' uuid=ad.uuid %}" class="m-btn-fav {% if is_favorite %}fav-active{% endif %}">{% if is_favorite %}💗{% else %}🤍{% endif %}</a>
-        <button class="m-btn-call">📞 Позвонить</button>
+        <button type="button" class="m-btn-call js-show-phone" data-phone="{{ ad.contact_phone|escape }}">📞 Позвонить</button>
     </div>
 </div>
 
-<script>document.body.classList.add('read-page-body');</script>
+<script>
+document.body.classList.add('read-page-body');
+(function () {
+    function revealPhone(btn) {
+        var raw = (btn.getAttribute('data-phone') || '').trim();
+        if (!raw) {
+            btn.textContent = 'Номер не указан';
+            btn.disabled = true;
+            btn.classList.add('phone-revealed-empty');
+            return;
+        }
+        var tel = raw.replace(/\s+/g, '');
+        var a = document.createElement('a');
+        a.href = 'tel:' + tel;
+        a.className = btn.className.replace(/\s*js-show-phone\s*/g, ' ').trim();
+        a.textContent = raw;
+        btn.replaceWith(a);
+    }
+    document.querySelectorAll('.js-show-phone').forEach(function (btn) {
+        btn.addEventListener('click', function () { revealPhone(btn); });
+    });
+})();
+</script>
 {% endblock %}

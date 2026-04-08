@@ -200,6 +200,7 @@ class Command(BaseCommand):
                     is_top=data['is_top'],
                     is_moderated=True,
                     image_url=data.get('image_url', ''),
+                    contact_phone=data.get('contact_phone', '87071126671'),
                 )
                 count += 1
 
